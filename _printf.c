@@ -12,6 +12,10 @@ int _printf(const char *fmt, ...)
     int len = 0;
 
     va_start(ap, fmt);
+
+    if(fmt == NULL){
+        return (-1);
+    }
     while (*fmt)
     {
         if (*fmt == '%')
