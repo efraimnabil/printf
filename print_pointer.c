@@ -8,10 +8,12 @@
  */
 int print_pointer(void *p)
 {
-    int len = 0;
-    unsigned long int n = (unsigned long int)p;
+	char c[30];
+	char sf[3];
 
-    len += write(1, "0x", 2);
-    len += print_hex(n, 0);
-    return (len);
+	sf[0] = '%';
+	sf[1] = 'p';
+	sf[2] = '\0';
+	sprintf(c, sf, p);
+	return (write(1, c, strlen(c)));
 }
