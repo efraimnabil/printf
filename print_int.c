@@ -3,23 +3,19 @@
 /**
  * print_int - function that prints an integer
  * @n: the integer to print
+ * @c: character representing the format specifier
  *
  * Return: the number of characters printed
  */
 
-int print_int(int n)
+int print_int(long int n, char c)
 {
-    int len = 0;
+	char str[30];
+	char sf[3];
 
-    if (n < 0)
-    {
-        len += write(1, "-", 1);
-        n = -n;
-    }
-    if (n / 10)
-    {
-        len += print_int(n / 10);
-    }
-    len += write(1, &"0123456789"[n % 10], 1);
-    return (len);
+	sf[0] = '%';
+	sf[1] = c;
+	sf[2] = '\0';
+	sprintf(str, sf, n);
+	return (write(1, str, strlen(str)));
 }

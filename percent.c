@@ -20,57 +20,47 @@ int handle_percent(char *fmt, va_list ap)
     fmt++;
     switch (*fmt)
     {
-    case 's':
-        s = va_arg(ap, char *);
-        if (s == NULL)
-        {
-            s = "(null)";
-        }
-        len += print_string(s);
-        break;
-    case 'c':
-        c = va_arg(ap, int);
-        len += print_char(c);
-        break;
-    case 'd':
-        n = va_arg(ap, int);
-        len += print_int(n);
-        break;
-    case 'i':
-        n = va_arg(ap, int);
-        len += print_int(n);
-        break;
-    case 'u':
-        n = va_arg(ap, unsigned int);
-        len += print_unsigned(n);
-        break;
-    case 'o':
-        n = va_arg(ap, unsigned int);
-        len += print_octal(n);
-        break;
-    case 'x':
-        n = va_arg(ap, unsigned int);
-        len += print_hex(n, 0);
-        break;
-    case 'X':
-        n = va_arg(ap, unsigned int);
-        len += print_hex(n, 1);
-        break;
-    case 'b':
-        n = va_arg(ap, unsigned int);
-        len += print_binary(n);
-        break;
-    case 'p':
-        p = va_arg(ap, void *);
-        len += print_pointer(p);
-        break;
-    case '%':
-        len += print_char('%');
-        break;
-    default:
-        len += print_char('%');
-        len += print_char(*fmt);
-        break;
+        case 's':
+            s = va_arg(ap, char *);
+            if (s == NULL)
+            {
+                s = "(null)";
+            }
+            len += write(1, s, strlen(s));
+            break;
+        case 'c':
+            c = (char)va_arg(ap, int);
+            len += write(1, &c, 1);
+            break;
+        case 'd':
+        case 'i':
+            n = va_arg(ap, int);
+            len += print_int(n, *fmt);
+            break;
+        case 'u':
+            n = va_arg(ap, unsigned int);
+            len += print_unsigned(n);
+            break;
+        case 'o':
+            n = va_arg(ap, unsigned int);
+            len += print_octal(n);
+            break;
+        case 'x':
+        case 'X':
+            n = va_arg(ap, unsigned int);
+            len += print_hex(n, *fmt == 'X');
+            break;
+        case 'b':
+            n = va_arg(ap, unsigned int);
+            len += print_binary(n);
+            break;
+        case 'p':
+            p = va_arg(ap, void *);
+            len += print_pointer(p);
+            break;
+        default:
+            len += write(1, fmt, 1);
+            break;
     }
     return (len);
 }
