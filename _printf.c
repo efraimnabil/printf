@@ -9,25 +9,40 @@
 int _printf(const char *fmt, ...)
 {
     va_list ap;
-    int len = 0;
+    int len = 0, prev_per = 0;
 
     va_start(ap, fmt);
 
-    if(fmt == NULL){
+    if (fmt == NULL)
+    {
         return (-1);
     }
     while (*fmt)
     {
-        if (*fmt == '%')
+        if (prev_per)
         {
-            len += handle_percent((char *)fmt, ap);
-            fmt++;
+            if (*fmt != ' ')
+            {
+                len += handle_percent(fmt, ap);
+                prev_per = 0;
+            }
         }
         else
         {
-            len += just_print(*fmt);
+            if (*fmt == '%')
+            {
+                prev_per = 1;
+            }
+            else
+            {
+                len += write(1, fmt, 1);
+            }
         }
         fmt++;
+    }
+    if (prev_per)
+    {
+        return (-1);
     }
     va_end(ap);
 

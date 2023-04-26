@@ -15,6 +15,6 @@ int print_hex(unsigned int n, int upper);
 int print_binary(unsigned int n);
 int print_pointer(void *p);
 int just_print(char c);
-int handle_percent(char *fmt, va_list ap);
+int handle_percent(const char *fmt, va_list ap);
 
 #endif
