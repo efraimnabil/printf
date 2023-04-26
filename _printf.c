@@ -17,6 +17,7 @@ int _printf(const char *fmt, ...)
     {
         return (-1);
     }
+
     while (*fmt)
     {
         if (prev_per)
@@ -38,12 +39,15 @@ int _printf(const char *fmt, ...)
                 len += write(1, fmt, 1);
             }
         }
+
         fmt++;
     }
+
     if (prev_per)
     {
         return (-1);
     }
+
     va_end(ap);
 
     return (len);
