@@ -9,10 +9,6 @@
 
 int _printf(const char *format, ...);
 int print_int(long int n, char c);
-int print_unsigned(unsigned int n);
-int print_octal(unsigned int n);
-int print_hex(unsigned int n, int upper);
-int print_binary(unsigned int n);
 int print_pointer(void *p);
 int handle_percent(const char *fmt, va_list ap);
 
