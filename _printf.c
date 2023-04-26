@@ -15,14 +15,14 @@
  */
 int print_string(char *s)
 {
-	int len = 0;
+    int len = 0;
 
-	while (*s)
-	{
-		len += write(1, s, 1);
-		s++;
-	}
-	return (len);
+    while (*s)
+    {
+        len += write(1, s, 1);
+        s++;
+    }
+    return (len);
 }
 
 /**
@@ -33,10 +33,10 @@ int print_string(char *s)
  */
 int print_char(char c)
 {
-	int len = 0;
+    int len = 0;
 
-	len += write(1, &c, 1);
-	return (len);
+    len += write(1, &c, 1);
+    return (len);
 }
 
 /**
@@ -47,10 +47,10 @@ int print_char(char c)
  */
 int just_print(char c)
 {
-	int len = 0;
+    int len = 0;
 
-	len += write(1, &c, 1);
-	return (len);
+    len += write(1, &c, 1);
+    return (len);
 }
 
 /**
@@ -62,49 +62,59 @@ int just_print(char c)
  */
 int handle_percent(char *fmt, va_list ap)
 {
-	int len = 0;
-	char *s;
-	char c;
+    int len = 0;
+    char *s;
+    char c;
 
-	fmt++;
-	if (*fmt == 's')
-	{
-		s = va_arg(ap, char *);
-		len += print_string(s);
-	}
-	else if (*fmt == 'c')
-	{
-		c = va_arg(ap, int);
-		len += print_char(c);
-	}
-	else if (*fmt == '%')
-	{
-		len += print_char('%');
-	}
-	return (len);
+    fmt++;
+    if (*fmt == 's')
+    {
+        s = va_arg(ap, char *);
+        len += print_string(s);
+    }
+    else if (*fmt == 'c')
+    {
+        c = va_arg(ap, int);
+        len += print_char(c);
+    }
+    else if (*fmt == '%')
+    {
+        len += print_char('%');
+    }
+    else
+    {
+        len += just_print('%');
+        len += just_print(*fmt);
+    }
+    return (len);
 }
 
+/**
+ * _printf - function that prints formatted output to stdout
+ * @fmt: string containing the format specifiers
+ *
+ * Return: the number of characters printed
+ */
 int _printf(const char *fmt, ...)
 {
-	va_list ap;
-	int len = 0;
-	char *s;
-	char c;
+    va_list ap;
+    int len = 0;
 
-	va_start(ap, fmt);
-	while (*fmt)
-	{
-		if (*fmt == '%')
-		{
-			len += handle_percent((char *)fmt, ap);
-		}
-		else
-		{
-			len += just_print(*fmt);
-		}
-		fmt++;
-	}
-	va_end(ap);
+    va_start(ap, fmt);
+    while (*fmt)
+    {
+        if (*fmt == '%')
+        {
+            len += handle_percent((char *)fmt, ap);
+            fmt++;
+        }
+        else
+        {
+            len += just_print(*fmt);
+        }
+        fmt++;
+    }
+    va_end(ap);
 
-	return (len);
+    return (len);
 }
